@@ -30,6 +30,6 @@ jobs:
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
-        name: cppcheck-report-<span class="math-inline">\{GITHUB\_RUN\_NAME\}\-</span>{GITHUB_SHA::8}-<span class="math-inline">\{SHORT\_SHA\:\:5\}\-</span>{{ github.run_date }}
+        name: cppcheck-report-${date +"%Y%m%d%H%M%S"}-${{ github.sha }}
         path: ./cppcheck-report.xml
 
