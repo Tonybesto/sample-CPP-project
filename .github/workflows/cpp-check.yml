@@ -1,0 +1,54 @@
+name: 
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:name: CppCheck
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Setup CMake
+      uses: lukka/run-cmake@v1
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y cppcheck
+
+    - name: Run CppCheck
+      run: cppcheck --enable=all --xml --xml-version=2 .
+
+    - name: Upload CppCheck results
+      uses: actions/upload-artifact@v2
+      with:
+        name: cppcheck-results-${{ github.sha }}
+        path: cppcheck-result.xml
+
+    branches: [ "main" ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: configure
+      run: ./configure
+    - name: make
+      run: make
+    - name: make check
+      run: make check
+    - name: make distcheck
+      run: make distcheck
