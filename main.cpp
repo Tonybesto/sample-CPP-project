@@ -1,7 +1,5 @@
 #include <iostream>
 
-#include <iostream>
-
 int main() {
     // Print the message "Hello, C++!" to the console
     std::cout << "Hello, C++!" << std::endl;
