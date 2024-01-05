@@ -30,6 +30,6 @@ jobs:
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
-        name: cppcheck-report-${{ github.run_number }}-${{ format(github.event.head_commit.timestamp, 'YYYYMMDDTHHmmssZ') }}-${{ github.sha }}-short
+        name: cppcheck-report-${{ github.run_number }}-${{ github.sha }}-${{ github.event.head_commit.timestamp | replace(':', '') }}-short
         path: ./cppcheck-report.xml
 
