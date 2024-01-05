@@ -1,9 +1,4 @@
-name: 
-
-on:
-  push:
-    branches: [ "main" ]
-  pull_request:name: CppCheck
+name: CppCheck
 
 on:
   push:
