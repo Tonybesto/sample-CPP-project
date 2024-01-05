@@ -27,9 +27,14 @@ jobs:
       run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
       ##run: cppcheck --enable=all --xml --xml-version=2 .
 
-    - name: Upload CppCheck results
-      uses: actions/upload-artifact@v2
-      with:
-        name: cppcheck-report-${date +"%Y%m%d%H%M%S"}-${{ github.sha }}
-        path: ./cppcheck-report.xml
+    ##- name: Upload CppCheck results
+      ##uses: actions/upload-artifact@v2
+      # with:
+      #   name: cppcheck-report-${date +"%Y%m%d%H%M%S"}-${{ github.sha }}
+      #   path: ./cppcheck-report.xml
 
+    - name: Create artifact
+      run: |
+        TIMESTAMP=$(echo "${{ steps.set_timestamp.outputs.timestamp }}")
+        ARTIFACT_NAME="cppcheck-report-${TIMESTAMP}-${{ github.sha }}"
+        echo "Artifact Name: $ARTIFACT_NAME"
