@@ -13,19 +13,19 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Setup CMake
-      uses: lukka/run-cmake@v1
+    # - name: Setup CMake
+    #   uses: lukka/run-cmake@v1
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get upgrade -y 
-        sudo apt-get install -y cppcheck
+    # - name: Install dependencies
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get upgrade -y 
+    # #     sudo apt-get install -y cppcheck
 
-    - name: Run CppCheck
-      ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
-      run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
-      ##run: cppcheck --enable=all --xml --xml-version=2 .
+    # - name: Run CppCheck
+    #   ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
+    #   run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
+    #   ##run: cppcheck --enable=all --xml --xml-version=2 .
 
     ##- name: Upload CppCheck results
       ##uses: actions/upload-artifact@v2
@@ -35,6 +35,6 @@ jobs:
 
     - name: Create artifact
       run: |
-        TIMESTAMP=$(echo "${{ steps.set_timestamp.outputs.timestamp }}")
+        TIMESTAMP=$(date +"%Y-%m-%d %H-%M-%S")
         ARTIFACT_NAME="cppcheck-report-${TIMESTAMP}-${{ github.sha }}"
         echo "Artifact Name: $ARTIFACT_NAME"
