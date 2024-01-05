@@ -23,7 +23,8 @@ jobs:
         sudo apt-get install -y cppcheck
 
     - name: Run CppCheck
-      run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
+      ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
+      run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
       ##run: cppcheck --enable=all --xml --xml-version=2 .
 
     - name: Upload CppCheck results
