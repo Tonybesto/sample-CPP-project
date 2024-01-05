@@ -23,11 +23,11 @@ jobs:
         sudo apt-get install -y cppcheck
 
     - name: Run CppCheck
-      run: cppcheck --enable=all --xml --xml-version=2 .
+      run: cppcheck --enable=all --xml --xml-version=2 --check-config .
+      ##run: cppcheck --enable=all --xml --xml-version=2 .
 
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
         name: cppcheck-results-${{ github.sha }}
         path: cppcheck-result.xml
-
