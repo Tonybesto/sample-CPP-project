@@ -14,14 +14,6 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
-    - name: Set Timestamp and Artifact Name
-      id: set_timestamp
-      run: |
-        TIMESTAMP=$(date +'%Y-%m-%d %H-%M-%S')
-        ARTIFACT_NAME="cppcheck-report-${TIMESTAMP}-${GITHUB_SHA}"
-        echo "::set-output name=TIMESTAMP::$TIMESTAMP"
-        echo "::set-output name=ARTIFACT_NAME::$ARTIFACT_NAME"
-
     - name: Setup CMake
       uses: lukka/run-cmake@v1
 
@@ -39,7 +31,7 @@ jobs:
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
-        name: cppcheck-report-${{ env.ARTIFACT_NAME }}
+        name: "cppcheck-report-$(date +'%Y-%m-%d-%H-%M-%S')-${{ github.sha }}"
         path: ./cppcheck-report.xml
 
     # - name: Create artifact
