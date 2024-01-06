@@ -27,14 +27,15 @@ jobs:
       run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
       
 
+    - name: Set Artifact Name
+      id: set_artifact_name
+      run: |
+          SHORT_SHA=$(echo "${GITHUB_SHA::5}")
+          echo "ARTIFACT_NAME=cppcheck-report-$(date +'%Y-%m-%d-%H-%M-%S')-${SHORT_SHA}" >> $GITHUB_ENV
+      shell: bash
+
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
-        name: cppcheck-report-${{ github.run_number }}-$(echo ${{ github.sha }} | rev | cut -c1-7 | rev)-short
+        name: ${{ env.ARTIFACT_NAME }}
         path: ./cppcheck-report.xml
-
-    # - name: Create artifact 
-    #   run: |
-    #     TIMESTAMP=$(echo "${{ ${date +%Y%m%d%H%M%S"} }}")
-    #     ARTIFACT_NAME="cppcheck-report-${TIMESTAMP}-${{ github.sha }}"
-    #     echo "Artifact Name: $ARTIFACT_NAME"
