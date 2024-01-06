@@ -9,23 +9,18 @@ jobs:
   build:
     runs-on: ubuntu-20.04
 
-    # env:
-    #   TIMESTAMP: $(date +"%Y-%m-%d %H-%M-%S")
-    #   ARTIFACT_NAME: "cppcheck-report-${{ env.TIMESTAMP }}-${{ github.sha }}"
 
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
 
     - name: Set Timestamp and Artifact Name
+      id: set_timestamp
       run: |
-        TIMESTAMP=$(date +"%Y-%m-%d %H-%M-%S")
+        TIMESTAMP=$(date +'%Y-%m-%d %H-%M-%S')
         ARTIFACT_NAME="cppcheck-report-${TIMESTAMP}-${GITHUB_SHA}"
-        echo "Timestamp: $TIMESTAMP"
-        echo "Artifact Name: $ARTIFACT_NAME"
-        echo "GITHUB_SHA: $GITHUB_SHA"
-        echo "::set-env name=TIMESTAMP::$TIMESTAMP"
-        echo "::set-env name=ARTIFACT_NAME::$ARTIFACT_NAME"
+        echo "::set-output name=TIMESTAMP::$TIMESTAMP"
+        echo "::set-output name=ARTIFACT_NAME::$ARTIFACT_NAME"
 
     - name: Setup CMake
       uses: lukka/run-cmake@v1
