@@ -17,16 +17,20 @@ jobs:
     - name: Setup CMake
       uses: lukka/run-cmake@v1
 
-    - name: Install dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get upgrade -y 
-        sudo apt-get install -y cppcheck
-
-    - name: Run CppCheck
-    #   ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
-      run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
-    #   ##run: cppcheck --enable=all --xml --xml-version=2 .
+    # - name: Install dependencies
+    #   run: |
+    #     sudo apt-get update
+    #     sudo apt-get upgrade -y 
+    #     sudo apt-get install -y cppcheck
+    - name: cppcheck
+      uses: deep5050/cppcheck-action@main
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN}}
+        
+    # - name: Run CppCheck
+    # #   ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
+    #   run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
+    # #   ##run: cppcheck --enable=all --xml --xml-version=2 .
 
     - name: Set Artifact Name
       id: set_artifact_name
