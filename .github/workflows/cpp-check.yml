@@ -31,7 +31,8 @@ jobs:
     - name: Set Artifact Name
       id: set_artifact_name
       run: |
-        echo "ARTIFACT_NAME=cppcheck-report-$(date +'%Y-%m-%d-%H-%M-%S')-${GITHUB_SHA}" >> $GITHUB_ENV
+        SHORT_SHA=$(echo "${GITHUB_SHA::5}")
+        echo "ARTIFACT_NAME=cppcheck-report-$(date +'%Y-%m-%d-%H-%M-%S')-${SHORT_SHA}" >> $GITHUB_ENV
       shell: bash
 
     - name: Upload CppCheck results
