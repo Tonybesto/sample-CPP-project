@@ -30,7 +30,7 @@ jobs:
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
-        name: cppcheck-report-${{ github.run_number }}-$(echo "${{ github.sha }}" | rev | cut -c1-7 | rev)-short
+        name: cppcheck-report-${{ github.run_number }}-$(echo ${{ github.sha }} | rev | cut -c1-7 | rev)-short
         path: ./cppcheck-report.xml
 
     # - name: Create artifact 
