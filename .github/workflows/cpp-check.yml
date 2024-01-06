@@ -9,10 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-20.04
 
-    env:
-      TIMESTAMP: $(date +"%Y-%m-%d %H-%M-%S")
-      ARTIFACT_NAME: "cppcheck-report-${TIMESTAMP}-${{ github.sha }}"
-
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
@@ -20,32 +16,21 @@ jobs:
     - name: Setup CMake
       uses: lukka/run-cmake@v1
 
-    # - name: Install dependencies
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get upgrade -y 
-    #     sudo apt-get install -y cppcheck
-    - name: cppcheck
-      uses: deep5050/cppcheck-action@main
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN}}
-
-    - name: setup init_script
-      shell: bash
+    - name: Install dependencies
       run: |
         sudo apt-get update
         sudo apt-get upgrade -y 
         sudo apt-get install -y cppcheck
 
     - name: Run CppCheck
-    #   ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
+      ##run: cppcheck --enable=all --xml --xml-version=2 --check-config --std=c++11 .
       run: cppcheck --enable=all --force --inconclusive --xml --xml-version=2 --output-file=cppcheck-report.xml .
-    #   ##run: cppcheck --enable=all --xml --xml-version=2 .
+      
 
     - name: Upload CppCheck results
       uses: actions/upload-artifact@v2
       with:
-        name: cppcheck-report-${ARTIFACT_NAME}
+        name: cppcheck-report-${{ github.run_number }}-$(echo "${{ github.sha }}" | rev | cut -c1-7 | rev)-short
         path: ./cppcheck-report.xml
 
     # - name: Create artifact 
