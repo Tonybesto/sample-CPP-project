@@ -30,7 +30,7 @@ jobs:
     - name: Set Artifact Name
       id: set_artifact_name
       run: |
-          SHORT_SHA=$(echo "${GITHUB_SHA::5}")
+          SHORT_SHA=$(echo "${GITHUB_SHA::7}")
           echo "ARTIFACT_NAME=cppcheck-report-$(date +'%Y-%m-%d-%H-%M-%S')-${SHORT_SHA}" >> $GITHUB_ENV
       shell: bash
 
@@ -39,3 +39,23 @@ jobs:
       with:
         name: ${{ env.ARTIFACT_NAME }}
         path: ./cppcheck-report.xml
+
+    # - name: Install OneDriveUploader
+    #   run: |
+    #     mkdir -p ~/.local/bin
+    #     curl -Ls -o ~/.local/bin/onedriveuploader https://github.com/abraunegg/onedriveuploader/releases/latest/download/onedriveUploader_linux
+    #     chmod +x ~/.local/bin/onedriveuploader
+  
+    # - name: Upload to OneDrive
+    #   run: |
+    #     ~/.local/bin/onedriveuploader -f ./cppcheck-report.xml -s ${{ secrets.ONEDRIVE_FOLDER_ID }} -c ${{ secrets.ONEDRIVE_CLIENT_ID }} -s ${{ secrets.ONEDRIVE_CLIENT_SECRET }} -r ${{ secrets.ONEDRIVE_REFRESH_TOKEN }}    
+
+
+    # - name: Upload to OneDrive
+    #   uses: appleboy/upload-file-action@master
+    #   with:
+    #     src: ./cppcheck-report.xml
+    #     dest: ${{ secrets.ONEDRIVE_PATH }}/
+    #     displayName: Upload CppCheck results to OneDrive
+    #   env:
+    #       ONEDRIVE_TOKEN: ${{ secrets.ONEDRIVE_TOKEN }}
